@@ -16,47 +16,56 @@
     <title>Expenses App</title>
   </head>
   <body>
-    <h1 class="title">Учет расходов</h1>
-    <div class="expenses">
-      <div class="input-wrapper">
-        <input
-          id="input-value"
-          class="input-value"
-          type="number"
-          placeholder="Введите сумму"
-        />
-        <select class="category-list" name="" id="category-list">
-          <option disabled hidden selected value="Категории">Категории</option>
-          <option value="Кафе">Кафе и рестораны</option>
-          <option value="Продукты">Продукты</option>
-          <option value="Товары для животных">Товары для животных</option>
-          <option value="Такси">Такси</option>
-        </select>
-      </div>  
-        
+    <div class="container">
+      <h1 class="title">Учет расходов</h1>
+      <div class="expenses">
+        <div class="input-wrapper">
+          <input
+            id="input-value"
+            class="input-value"
+            type="number"
+            placeholder="Введите сумму"
+          />
+          <select class="category-list" name="" id="category-list">
+            <option disabled hidden selected value="Категории">
+              Категории
+            </option>
+            <option value="Кафе">Кафе и рестораны</option>
+            <option value="Продукты">Продукты</option>
+            <option value="Товары для животных">Товары для животных</option>
+            <option value="Такси">Такси</option>
+          </select>
+        </div>
+
         <div class="button-wrapper">
           <button id="button-add" class="button-add button">Добавить</button>
-          <button id="button-clear" class="button-clear button">Очистить историю</button>
+          <button id="button-clear" class="button-clear button">
+            Очистить историю
+          </button>
         </div>
-      <div class="value-wrapper">
-        <div class="users-values">
-          <div class="status-limit">
-            <span class="label">Лимит:</span>
-            <span id="limit" class="value-limit">10000</span>
-            <button class="button-limit"><img src="img/limit-icon.png" alt=""></button></div>
-          <div class="status-sum">
-            <span class="label">Итого:</span>
-            <span id="sum" class="value-sum">0</span>
+        <div class="value-wrapper">
+          <div class="users-values">
+            <div class="status-limit">
+              <span class="label">Лимит:</span>
+              <span id="limit" class="value-limit">10000</span>
+              <button class="button-limit">
+                <img src="img/limit-icon.png" alt="" />
+              </button>
+            </div>
+            <div class="status-sum">
+              <span class="label">Итого:</span>
+              <span id="sum" class="value-sum">0</span>
+            </div>
+            <div class="status-status">
+              <span class="label">Статус:</span>
+              <span id="status" class="value-status">Все хорошо</span>
+            </div>
           </div>
-          <div class="status-status">
-            <span class="label">Статус:</span>
-            <span id="status" class="value-status">Все хорошо</span>
-          </div>
-        </div>
-        <div class="user-history">
-          <span class="label">История:</span>
-          <div>
-            <ol id="history-list"></ol>
+          <div class="user-history">
+            <span class="label">История:</span>
+            <div>
+              <ol id="history-list"></ol>
+            </div>
           </div>
         </div>
       </div>

@@ -18,9 +18,12 @@ select {
 input::placeholder {
   padding-left: 20px;
 }
+.container {
+  margin: 0 auto;
+}
 .expenses {
   margin-top: 50px;
-  padding: 30px 50px 150px;
+  padding: 30px 50px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -114,4 +117,35 @@ ol {
 }
 .red {
   color: rgb(243, 3, 3);
+}
+
+@media only screen and (max-width: 1099px) {
+  body {
+    font-size: 20px;
+    line-height: 25px;
+  }
+  .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .expenses {
+    padding: 30px 15px;
+    width: 100%;
+  }
+  .title {
+    line-height: 50px;
+  }
+  .value-wrapper {
+    flex-direction: column;
+  }
+  
+  
+}
+
+@media only screen and (max-width: 767px) {
+  
+  input,
+  select {
+    width: 100%;
+  }
 }
