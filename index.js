@@ -1,142 +1,152 @@
-// задается переменая со значением лимита
-const LIMIT = 15000;
-// заводим переменные для фраз
-const GOOD_STATUS_LIMIT = 'Все хорошо';
-const BAD_STATUS_LIMIT = 'Все плохо';
-const BAD_STATUS_LIMIT_CLASSNAME = document.querySelector('.limit_red');
-const RUB = 'руб.';
+const GOOD_STATUS = 'Все хорошо';
+const BAD_STATUS = 'Все плохо';
+const ZERO = 0;
+const CUR = 'руб.'
 
-const inputNode = document.getElementById('input-value');
-const categoryListNode = document.getElementById('category-list');
-const buttonNode = document.getElementById('button-add');
-const buttonClearNode = document.getElementById('button-clear');
-const historyNode = document.getElementById('history-list');
+const inputValueNode = document.getElementById('input-value');
+const buttonAddHistory = document.getElementById('button-add');
+const buttonClear = document.getElementById('button-clear')
+const historyList = document.getElementById('history-list');
 const sumNode = document.getElementById('sum');
 const limitNode = document.getElementById('limit');
-const statusNode = document.getElementById('status')
+const statusNode = document.getElementById('status');
+const categoryList = document.getElementById('category-list');
+const buttonLimit = document.getElementById('button-limit');
+const errorExpenseNode = document.getElementById('error-input');
+const errorCategoryNode = document.getElementById('error-select');
 
-// массив для сохранения истории покупок
-const expenses = [];
+let limit = parseInt(limitNode.innerText);
 
-const limit = parseInt(limitNode.innerText);
+init();
 
-init(expenses);
+let expenses = [];
 
-
-// функция для записания первичных значений
 function init() {
-    sumNode.innerText = calculateExpenses(expenses);
-    limitNode.innerText = LIMIT;
-    statusNode.innerText = GOOD_STATUS_LIMIT;
+    sumNode.innerText = `${ZERO} ${CUR}`;
+    limitNode.innerText = `${limit} ${CUR}`;
+    statusNode.innerText = GOOD_STATUS;
 }
 
-// функция добавления в массив из переменной
-function trackExpense(expense) {
-    // в наш массив с историей покупок добавляем преобразованное число
-    expenses.push(expense);
-}
+buttonAddHistory.addEventListener('click', function() {
+    let spend = getValueFromUser();
 
-// функция добавления в переменную преобразованного числа из поля ввода и его очищения 
-function getExpenseFromUser(expense) {
-    // если в инпут не ввели значение, прекратить
-    if (!inputNode.value) {
-        return null;
+    if(!spend) return addTextErrorFromSpend();
+
+    let category = getCategoryFromUser();
+
+    if (category === "Категории") return addTextErrorFromCaterory();
+
+    const newExpense = {
+        spend: spend,
+        category: category,
     }
 
-    // создаем переменную для преобразования веденого значения пользователем в число
-    // const expense = parseInt(inputNode.value);
-    
+    expenses.push(newExpense);
+
+    render();
+
     clearInput();
 
-    return expense;
-}
+    clearTextError();
+})
 
-// функция для создания структуры
-// высчитываем сумму, 
-// далее создаем историю передавая наш массив, 
-// создаем новую сумму и передаем туда посчитанную, 
-// и создаем статус, передавая сумму
-function render(expenses) {
-    const sum = calculateExpenses(expenses);
+buttonClear.addEventListener('click', function() {
+    init();
+    clearHistory();
+})
 
-    renderHistory(expenses);
-    renderSum(sum);
-    renderStatus(sum);
-}
+buttonLimit.addEventListener('click', function() {
+    addNewLimit();
+})
 
-// функция для очищения поля ввода
-function clearInput() {
-    // и очищаем наш инпут
-    inputNode.value = '';
-}
-// функция для подсчета суммы
-function calculateExpenses(expenses) {
-    // создаем переменную суммы для складывания всех трат
-    let sum = 0;
-    // цикл для складывания суммы
-    expenses.forEach(element => {
-        sum += element;
-    });
-
-    return sum;
-}
-
-// функция для отрисовки HTML
-function renderHistory(expenses) {
-    // создаем переменную для создания и вкладывания в нее html структуру
-    historyNode.innerHTML = "";
-
-    // создаем цикл для создания карточек
-    expenses.forEach((expense) => {
-        const historyItem = document.createElement('li');
-        historyItem.className = 'rub';
-        historyItem.innerText = expense;
-
-        historyNode.appendChild(historyItem);
-    });
-}
-
-// функция для отрисовки суммы
-function renderSum(sum) {
-    // записываем содержание в наш html файл
-    sumNode.innerText = sum;
-}
-
-// функция для проверки лимита
-function renderStatus(expenses) {
-    const total = calculateExpenses(expenses);
-    totalValueNode.innerText = total;
-    // запускаем проверку, что если сумма больше лимита, мы меняем тект
-    if (sum <= LIMIT) {
-        statusNode.innerText = GOOD_STATUS_LIMIT;
-    } else {
-        statusNode.innerText = `${BAD_STATUS_LIMIT} (${limit - total})`;
-        statusNode.classList.add(BAD_STATUS_LIMIT_CLASSNAME);
-    }
-}
-function addButtonHandler(params) {
-    
-}
-function clearButtonHandler() {
+function clearHistory() {
     expenses = [];
     render();
 }
 
-// -------------------ОБРАБОТЧИКИ КЛИКОВ------------------
-// обработчик события по клику кнопки 'Добавить'
-buttonNode.addEventListener('click', function() {
-    //в переменную expense записывается функция 
-    const expense = getExpenseFromUser();
+function getValueFromUser() {
+    let inputValue = parseInt(inputValueNode.value);
 
-    // если пустой ввод - выйти
-    if(!expense) {
-        return;
+    return inputValue;
+}
+
+function getCategoryFromUser() {
+    return categoryList.value;
+}
+
+function clearInput() {
+    inputValueNode.value = '';
+}
+
+function getExpenses() {
+    return expenses;
+}
+
+function render() {
+    renderStatus();
+    renderHistory();
+}
+
+function renderHistory() {
+    const expenses = getExpenses();
+
+    let historyHTML = '';
+
+    expenses.forEach(expense => {
+        const expenseHTML = `<li>${expense.spend} ${CUR} - ${expense.category}</li>`;
+        historyHTML += expenseHTML;
+    });
+    
+    historyList.innerHTML = historyHTML;
+}
+
+function renderSum() {
+    let sum = 0;
+    
+    expenses.forEach(expense => {
+        sum += expense.spend;
+    });
+    
+    return sum;
+}
+
+function renderStatus() {
+    let sum = renderSum();
+    sumNode.innerText = `${sum} ${CUR}`;
+    let odds = limit - sum;
+
+    if (sum <= limit) {
+        statusNode.innerText = GOOD_STATUS;
+        statusNode.classList.remove('red');
+    } else {
+        statusNode.innerText = `${BAD_STATUS} (${odds} ${CUR})`;
+        statusNode.classList.add('red');
     }
+}
 
-    trackExpense(expense);
+function addNewLimit() {
+    const newLimit = prompt('Установите новый лимит');
 
-    render(expenses);
-});
+    const newLimitValue = parseInt(newLimit);
 
-// обработчик события по клику кнопки 'Очистить историю'
-buttonClearNode.addEventListener('click', clearButtonHandler);
+    if(!newLimitValue) return;
+
+    limitNode.innerText = newLimitValue;
+
+    limit = newLimitValue;
+
+    renderStatus();
+}
+
+function addTextErrorFromSpend() {
+    errorExpenseNode.innerText = "Сумма не введена";
+}
+
+function addTextErrorFromCaterory() {
+    errorCategoryNode.innerText = "Не выбрана категория";
+}
+
+function clearTextError() {
+    errorCategoryNode.innerText = "";
+    errorExpenseNode.innerText = "";
+}
