@@ -8,7 +8,7 @@ body {
   font-weight: 400;
   font-size: 32px;
   line-height: 39px;
-  background-color: rgb(166, 166, 166);
+  background-color: rgb(214, 210, 210);
 }
 button,
 input,
@@ -108,7 +108,7 @@ option:hover {
 }
 
 .button-limit {
-  background-color: rgb(166, 166, 166);
+  background-color: rgb(214, 210, 210);
   border: none;
   cursor: pointer;
 }
@@ -117,6 +117,11 @@ ol {
 }
 .red {
   color: rgb(243, 3, 3);
+}
+.error {
+  font-size: 20px;
+  line-height: 20px;
+  color: red;
 }
 
 @media only screen and (max-width: 1099px) {

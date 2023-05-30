@@ -26,6 +26,7 @@
             type="number"
             placeholder="Введите сумму"
           />
+          <div id="error-input" class="error"></div>
           <select class="category-list" name="" id="category-list">
             <option disabled hidden selected value="Категории">
               Категории
@@ -35,6 +36,7 @@
             <option value="Товары для животных">Товары для животных</option>
             <option value="Такси">Такси</option>
           </select>
+          <div id="error-select" class="error"></div>
         </div>
 
         <div class="button-wrapper">
@@ -48,7 +50,7 @@
             <div class="status-limit">
               <span class="label">Лимит:</span>
               <span id="limit" class="value-limit">10000</span>
-              <button class="button-limit">
+              <button id="button-limit" class="button-limit">
                 <img src="img/limit-icon.png" alt="" />
               </button>
             </div>

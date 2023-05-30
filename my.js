@@ -11,7 +11,9 @@ const sumNode = document.getElementById('sum');
 const limitNode = document.getElementById('limit');
 const statusNode = document.getElementById('status');
 const categoryList = document.getElementById('category-list');
-const buttonLimit = document.querySelector('.button-limit');
+const buttonLimit = document.getElementById('button-limit');
+const errorExpenseNode = document.getElementById('error-input');
+const errorCategoryNode = document.getElementById('error-select');
 
 let limit = parseInt(limitNode.innerText);
 
@@ -28,11 +30,11 @@ function init() {
 buttonAddHistory.addEventListener('click', function() {
     let spend = getValueFromUser();
 
-    if(!spend) return;
+    if(!spend) return addTextErrorFromSpend();
 
     let category = getCategoryFromUser();
 
-    if (category === "Категории") return;
+    if (category === "Категории") return addTextErrorFromCaterory();
 
     const newExpense = {
         spend: spend,
@@ -44,6 +46,8 @@ buttonAddHistory.addEventListener('click', function() {
     render();
 
     clearInput();
+
+    clearTextError();
 })
 
 buttonClear.addEventListener('click', function() {
@@ -132,4 +136,17 @@ function addNewLimit() {
     limit = newLimitValue;
 
     renderStatus();
+}
+
+function addTextErrorFromSpend() {
+    errorExpenseNode.innerText = "Сумма не введена";
+}
+
+function addTextErrorFromCaterory() {
+    errorCategoryNode.innerText = "Не выбрана категория";
+}
+
+function clearTextError() {
+    errorCategoryNode.innerText = "";
+    errorExpenseNode.innerText = "";
 }
